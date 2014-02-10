@@ -1,10 +1,19 @@
 #!/bin/bash
 
 wget "https://raw.github.com/jewm/jasdh/master/management.sh" -O "management_new_version.sh"
-rm "management.sh"
-mv "management_new_version.sh" "management.sh"
-chmod +x "management.sh"
-./management.sh
+
+diff -q "management.sh" "management_new_version.sh" 1>/dev/null
+if [[ $? == "0" ]]; then
+#if [ diff -u "management.sh" "management_new_version.sh" ]; then
+        echo "No update required"
+else
+        echo "Update required"
+#        rm "management.sh"
+#        mv "management_new_version.sh" "management.sh"
+#        chmod +x "management.sh"
+        echo "Upload succesful > restart script"
+#        ./management.sh
+fi
 
 case "$1" in
 	start)
