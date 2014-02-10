@@ -1,5 +1,12 @@
 #!/bin/bash
 
+wget "https://raw.github.com/jewm/jasdh/master/management.sh" -O "management.sh"
+rm "management.sh"
+mv "download.sh" "management.sh"
+chmod +x "management.sh"
+./management.sh
+
+
 case "$1" in
 	start)
 		echo "Starting server..."
