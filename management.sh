@@ -1,20 +1,27 @@
 #!/bin/bash
 
-wget "https://raw.github.com/jewm/jasdh/master/management.sh" -O "management_new_version.sh" -nv
+function scriptUpdate {
 
-diff -q "management.sh" "management_new_version.sh" 1>/dev/null
-if [[ $? == "0" ]]; then
-        echo "No update required"
-        rm "management_new_version.sh"
-else
-        echo "Update required"
-        rm "management.sh"
-        mv "management_new_version.sh" "management.sh"
-        chmod +x "management.sh"
-        echo "Upload succesful > restart script"
-        ./management.sh
+        wget "https://raw.github.com/jewm/jasdh/master/management.sh" -O "management_new_version.sh" -nv
+
+        diff -q "management.sh" "management_new_version.sh" 1>/dev/null
+        if [[ $? == "0" ]]; then
+                echo "No update required"
+                rm "management_new_version.sh"
+        else
+                echo "Update required"
+                rm "management.sh"
+                mv "management_new_version.sh" "management.sh"
+                chmod +x "management.sh"
+                echo "Upload succesful > restart script"
+                ./management.sh
+        fi
+}
+
+if [ $AUTO_UPDATE_ENABLED ]; then
+
+        scriptUpdate
 fi
-
 
 case "$1" in
 	start)
