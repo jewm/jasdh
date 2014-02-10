@@ -1,6 +1,6 @@
 #!/bin/bash
 
-wget "https://raw.github.com/jewm/jasdh/master/management.sh" -O "management_new_version.sh"
+wget "https://raw.github.com/jewm/jasdh/master/management.sh" -O "management_new_version.sh" > /dev/null
 
 diff -q "management.sh" "management_new_version.sh" 1>/dev/null
 if [[ $? == "0" ]]; then
