@@ -1,11 +1,10 @@
 #!/bin/bash
 
-wget "https://raw.github.com/jewm/jasdh/master/management.sh" -O "management.sh"
+wget "https://raw.github.com/jewm/jasdh/master/management.sh" -O "management_new_version.sh"
 rm "management.sh"
-mv "download.sh" "management.sh"
+mv "management_new_version.sh" "management.sh"
 chmod +x "management.sh"
 ./management.sh
-
 
 case "$1" in
 	start)
