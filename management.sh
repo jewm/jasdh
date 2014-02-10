@@ -55,10 +55,9 @@ case "$1" in
 
 		$0 start
 
-		if [ ! $APPLICATION_RUNNING ];
-		then
+		if [ ! $APPLICATION_RUNNING ]; then
 			if [ "$2" = "--auto-rollback" ]; then
-                        echo "Rollback on failure"
+                        	echo "Rollback on failure"
                 	fi
 		fi
 
