@@ -18,7 +18,7 @@ function scriptUpdate {
         fi
 }
 
-if [ $AUTO_UPDATE_ENABLED ]; then
+if [ $AUTO_UPDATE_ENABLED = 1 ]; then
 
         scriptUpdate
 fi
