@@ -42,6 +42,12 @@ function deploy {
         	exit 1;
         fi
 
+	if [ ! -d $WEBAPPS_PATH ]; then
+		echo "$WEBAPPS_PATH not found"
+		echo "Deployment aborted"
+		exit 1;
+	fi
+
 	stopServer
 
 	if [ ! -d $WAR_BACKUP_PATH ]; then
@@ -60,17 +66,17 @@ function deploy {
 	cp "$WAR_PATH$CURRENT_WAR_NAME" "$WEBAPPS_PATH$FINAL_WAR_NAME"
 	echo "New war moved"
 
-	if [ "$2" = "--auto-rollback" ]; then
-		echo "Rollback on failure"
-	fi
+#	if [ "$2" = "--auto-rollback" ]; then
+#		echo "Rollback on failure"
+#	fi
 
 	startServer
 
-	if [ ! $APPLICATION_RUNNING ]; then
-		if [ "$2" = "--auto-rollback" ]; then
-			echo "Rollback on failure"
-		fi
-	fi
+#	if [ ! $APPLICATION_RUNNING ]; then
+#		if [ "$2" = "--auto-rollback" ]; then
+#			echo "Rollback on failure"
+#		fi
+#	fi
 
 	echo "Deployment finished"
 }
