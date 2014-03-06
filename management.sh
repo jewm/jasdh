@@ -33,37 +33,42 @@ function serverStatus {
 	$APPLICATION_SERVER_STATUS
 }
 
+function clearBackupFolder {
+	find $WAR_BACKUP_FOLDER -type f -ctime +10 | xargs rm -rf
+	echo "Backup-Folder cleared"
+}
+
 function deploy {
 	echo "Start deployment"
 
-        if [ ! -f "$WAR_PATH$CURRENT_WAR_NAME" ]; then
+        if [ ! -f "$WAR_FOLDER$CURRENT_WAR_NAME" ]; then
         	echo "$CURRENT_WAR_NAME not found"
         	echo "Deployment aborted"
         	exit 1;
         fi
 
-	if [ ! -d $WEBAPPS_PATH ]; then
-		echo "$WEBAPPS_PATH not found"
+	if [ ! -d $WEBAPPS_FOLDER ]; then
+		echo "$WEBAPPS_FOLDER not found"
 		echo "Deployment aborted"
 		exit 1;
 	fi
 
 	stopServer
 
-	if [ ! -d $WAR_BACKUP_PATH ]; then
-		mkdir -p $WAR_BACKUP_PATH
+	if [ ! -d $WAR_BACKUP_FOLDER ]; then
+		mkdir -p $WAR_BACKUP_FOLDER
 		echo "Backup-folder created"
 	fi
 
-	if [ -f "$WEBAPPS_PATH$FINAL_WAR_NAME" ]; then
-		mv "$WEBAPPS_PATH$FINAL_WAR_NAME" "$WAR_BACKUP_PATH$(date +"%Y-%m-%d-%H:%M").war"
+	if [ -f "$WEBAPPS_FOLDER$FINAL_WAR_NAME" ]; then
+		mv "$WEBAPPS_FOLDER$FINAL_WAR_NAME" "$WAR_BACKUP_FOLDER$(date +"%Y-%m-%d-%H:%M").war"
 		echo "Old war saved"
 	fi
 
-	rm -rf "$WEBAPPS_PATH*"
+	rm -rf "$WEBAPPS_FOLDER*"
 	echo "Webapps-folder cleared"
 
-	cp "$WAR_PATH$CURRENT_WAR_NAME" "$WEBAPPS_PATH$FINAL_WAR_NAME"
+	cp "$WAR_FOLDER$CURRENT_WAR_NAME" "$WEBAPPS_FOLDER$FINAL_WAR_NAME"
 	echo "New war moved"
 
 #	if [ "$2" = "--auto-rollback" ]; then
@@ -86,6 +91,8 @@ if [ $AUTO_UPDATE_ENABLED = 1 ]; then
 
         scriptUpdate
 fi
+
+clearBackupFolder
 
 case "$1" in
 	start)
