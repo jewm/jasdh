@@ -20,6 +20,7 @@ function scriptUpdate {
 	                chmod +x "management.sh"
 	                echo "Upload succesful > restart script"
 	                ./management.sh
+	                exit 1;
 	        fi
 	else
 		echo "File-content not verified > update aborted"
@@ -102,8 +103,6 @@ if [ $AUTO_UPDATE_ENABLED = "1" ]; then
         scriptUpdate
 fi
 
-clearBackupFolder
-
 case "$1" in
 	start)
 		startServer
@@ -123,6 +122,7 @@ case "$1" in
 	;;
 
 	deploy)
+		clearBackupFolder
 		deploy
 	;;
 esac
