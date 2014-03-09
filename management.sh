@@ -1,20 +1,30 @@
 #!/bin/bash
 
+## management.sh
+# Version: 0.1-SNAPSHOT
+##
+
 function scriptUpdate {
         wget "https://raw.github.com/jewm/jasdh/master/management.sh" -O "management_new_version.sh" -nv
 
-        diff -q "management.sh" "management_new_version.sh" 1>/dev/null
-        if [[ $? == "0" ]]; then
-                echo "No update required"
-                rm "management_new_version.sh"
-        else
-                echo "Update required"
-                rm "management.sh"
-                mv "management_new_version.sh" "management.sh"
-                chmod +x "management.sh"
-                echo "Upload succesful > restart script"
-                ./management.sh
-        fi
+	if [ grep -Fxq "management_new_version.sh" "# Version :" ]; then
+
+	        diff -q "management.sh" "management_new_version.sh" 1>/dev/null
+	        if [ $? == "0" ]; then
+	                echo "No update required"
+	                rm "management_new_version.sh"
+	        else
+	                echo "Update required"
+	                rm "management.sh"
+	                mv "management_new_version.sh" "management.sh"
+	                chmod +x "management.sh"
+	                echo "Upload succesful > restart script"
+	                ./management.sh
+	        fi
+	else
+		echo "File-content not verified > update aborted"
+		rm "management_new_version.sh"
+	fi
 }
 
 function startServer {
