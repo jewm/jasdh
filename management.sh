@@ -97,7 +97,7 @@ function deploy {
 }
 
 
-if [ $AUTO_UPDATE_ENABLED = 1 ]; then
+if [ $AUTO_UPDATE_ENABLED = "1" ]; then
 
         scriptUpdate
 fi
