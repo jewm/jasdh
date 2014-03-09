@@ -52,8 +52,8 @@ function clearBackupFolder {
 function deploy {
 	echo "Start deployment"
 
-        if [ ! -f "$WAR_FOLDER$CURRENT_WAR_NAME" ]; then
-        	echo "$CURRENT_WAR_NAME not found"
+        if [ ! -f $1 ]; then
+        	echo "$1 not found"
         	echo "Deployment aborted"
         	exit 1;
         fi
@@ -79,7 +79,7 @@ function deploy {
 	rm -rf "$WEBAPPS_FOLDER*"
 	echo "Webapps-folder cleared"
 
-	mv "$WAR_FOLDER$CURRENT_WAR_NAME" "$WEBAPPS_FOLDER$FINAL_WAR_NAME"
+	mv $1 "$WEBAPPS_FOLDER$FINAL_WAR_NAME"
 	echo "New war moved"
 
 #	if [ "$2" = "--auto-rollback" ]; then
@@ -98,8 +98,7 @@ function deploy {
 }
 
 
-if [ $AUTO_UPDATE_ENABLED = "1" ]; then
-
+if [ "$AUTO_UPDATE_ENABLED" = "1" ]; then
         scriptUpdate
 fi
 
@@ -122,7 +121,7 @@ case "$1" in
 	;;
 
 	deploy)
+		deploy "$WAR_FOLDER$NEW_WAR_NAME"
 		clearBackupFolder
-		deploy
 	;;
 esac
