@@ -78,7 +78,7 @@ function deploy {
 	rm -rf "$WEBAPPS_FOLDER*"
 	echo "Webapps-folder cleared"
 
-	cp "$WAR_FOLDER$CURRENT_WAR_NAME" "$WEBAPPS_FOLDER$FINAL_WAR_NAME"
+	mv "$WAR_FOLDER$CURRENT_WAR_NAME" "$WEBAPPS_FOLDER$FINAL_WAR_NAME"
 	echo "New war moved"
 
 #	if [ "$2" = "--auto-rollback" ]; then
