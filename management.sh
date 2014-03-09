@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## management.sh
-# Version: 0.1-SNAPSHOT
+# Version: 0.1.0-SNAPSHOT
 ##
 
 function scriptUpdate {
