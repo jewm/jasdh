@@ -7,8 +7,8 @@
 function scriptUpdate {
         wget "https://raw.github.com/jewm/jasdh/master/management.sh" -O "management_new_version.sh" -nv
 
-	if [ grep -Fxq "management_new_version.sh" "# Version :" ]; then
-
+	if grep -q "Version" "management_new_version.sh";
+	then
 	        diff -q "management.sh" "management_new_version.sh" 1>/dev/null
 	        if [ $? == "0" ]; then
 	                echo "No update required"
