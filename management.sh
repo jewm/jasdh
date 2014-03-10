@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## management.sh
-# Version: 0.1.1-SNAPSHOT
+# Version: 0.1.2-SNAPSHOT
 ##
 
 function scriptUpdate {
@@ -18,7 +18,7 @@ function scriptUpdate {
 	                rm "management.sh"
 	                mv "management_new_version.sh" "management.sh"
 	                chmod +x "management.sh"
-	                echo "Upload succesful > restart script"
+	                echo "Update succesful > restart script"
 	                ./management.sh
 	                exit 1;
 	        fi
@@ -72,7 +72,8 @@ function deploy {
 	fi
 
 	if [ -f "$WEBAPPS_FOLDER$FINAL_WAR_NAME" ]; then
-		mv "$WEBAPPS_FOLDER$FINAL_WAR_NAME" "$WAR_BACKUP_FOLDER$(date +"%Y-%m-%d-%H:%M").war"
+		cp "$WEBAPPS_FOLDER$FINAL_WAR_NAME" "$WAR_BACKUP_FOLDER$(date +"%Y-%m-%d-%H:%M").war"
+		mv "$WEBAPPS_FOLDER$FINAL_WAR_NAME" "$WAR_BACKUP_FOLDERlatest.war"
 		echo "Old war saved"
 	fi
 
@@ -82,19 +83,19 @@ function deploy {
 	mv $1 "$WEBAPPS_FOLDER$FINAL_WAR_NAME"
 	echo "New war moved"
 
-#	if [ "$2" = "--auto-rollback" ]; then
-#		echo "Rollback on failure"
-#	fi
-
 	startServer
-
-#	if [ ! $APPLICATION_RUNNING ]; then
-#		if [ "$2" = "--auto-rollback" ]; then
-#			echo "Rollback on failure"
-#		fi
-#	fi
-
 	echo "Deployment finished"
+}
+
+function rollback {
+	if [ ! -f "$WAR_BACKUP_FOLDERlatest.war" ]; then
+		echo "latest.war not found"
+		echo "Rollback aborted"
+		exit 1;
+	fi
+
+	deploy "$WAR_BACKUP_FOLDERlatest.war"
+	echo "Rollback finished"
 }
 
 
@@ -121,7 +122,27 @@ case "$1" in
 	;;
 
 	deploy)
-		deploy "$WAR_FOLDER$NEW_WAR_NAME"
+		if [ ! -z $2 ]; then
+			deploy $2
+		else
+			deploy "$WAR_FOLDER$NEW_WAR_NAME"
+		fi
+
 		clearBackupFolder
+	;;
+
+	rollback)
+		rollback
+	;;
+
+	*)
+		echo "Usage:"
+		echo "	*.sh startServer"
+		echo "	*.sh stopServer"
+		echo "	*.sh restartServer"
+		echo "	*.sh status"
+		echo "	*.sh deploy"
+		echo "	*.sh deploy any.war"
+		echo "	*.sh rollback"
 	;;
 esac
