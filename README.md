@@ -5,9 +5,11 @@ Java Application-Server Deployment Helper
 Usage:
 ------
 ```
-./example.jetty startServer
-./example.jetty stopServer
-./example.jetty restartServer
-./example.jetty status
-./example.jetty deploy
+./example.jetty.sh startServer
+./example.jetty.sh stopServer
+./example.jetty.sh restartServer
+./example.jetty.sh status
+./example.jetty.sh deploy
+./example.jetty.sh deploy any.war
+./example.jetty.sh rollback
 ```
