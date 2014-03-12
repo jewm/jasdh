@@ -13,4 +13,4 @@ FINAL_WAR_NAME="ROOT.war"
 WAR_FOLDER="/root/"
 NEW_WAR_NAME="deployable.war"
 
-source management.sh
+source $(dirname $(readlink -f $0))/management.sh
