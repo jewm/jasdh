@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## management.sh
-# Version: 0.1.2-SNAPSHOT
+# Version: 0.1.3-SNAPSHOT
 ##
 
 function scriptUpdate {
@@ -58,11 +58,11 @@ function deploy {
         	exit 1;
         fi
 
-	if [ ! -d $WEBAPPS_FOLDER ]; then
-		echo "$WEBAPPS_FOLDER not found"
-		echo "Deployment aborted"
-		exit 1;
-	fi
+#	if [ ! -d $WEBAPPS_FOLDER ]; then
+#		echo "$WEBAPPS_FOLDER not found"
+#		echo "Deployment aborted"
+#		exit 1;
+#	fi
 
 	stopServer
 
@@ -71,16 +71,16 @@ function deploy {
 		echo "Backup-folder created"
 	fi
 
-	if [ -f "$WEBAPPS_FOLDER$FINAL_WAR_NAME" ]; then
-		cp "$WEBAPPS_FOLDER$FINAL_WAR_NAME" "$WAR_BACKUP_FOLDER$(date +"%Y-%m-%d-%H:%M").war"
-		mv "$WEBAPPS_FOLDER$FINAL_WAR_NAME" "$WAR_BACKUP_FOLDERlatest.war"
+	if [ -f "$CURRENT_WAR" ]; then
+		cp "$CURRENT_WAR" "$WAR_BACKUP_FOLDER$(date +"%Y-%m-%d-%H:%M").war"
+		mv "$CURRENT_WAR" "$WAR_BACKUP_FOLDERlatest.war"
 		echo "Old war saved"
 	fi
 
-	rm -rf "$WEBAPPS_FOLDER*"
-	echo "Webapps-folder cleared"
+	rm -f "$CURRENT_WAR"
+	echo "Current war removed"
 
-	mv $1 "$WEBAPPS_FOLDER$FINAL_WAR_NAME"
+	mv $1 "$CURRENT_WAR"
 	echo "New war moved"
 
 	startServer
@@ -125,7 +125,7 @@ case "$1" in
 		if [ ! -z $2 ]; then
 			deploy $2
 		else
-			deploy "$WAR_FOLDER$NEW_WAR_NAME"
+			deploy "$NEW_WAR"
 		fi
 
 		clearBackupFolder
