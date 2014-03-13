@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## management.sh
-# Version: 0.1.3-SNAPSHOT
+# Version: 0.1.4-SNAPSHOT
 ##
 
 function scriptUpdate {
@@ -19,7 +19,7 @@ function scriptUpdate {
 	                mv "management_new_version.sh" "management.sh"
 	                chmod +x "management.sh"
 	                echo "Update succesful > restart script"
-	                ./management.sh
+	                source $(dirname $(readlink -f $0))/management.sh
 	                exit 1;
 	        fi
 	else
