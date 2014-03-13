@@ -7,10 +7,8 @@ APPLICATION_SERVER_STOP="service jetty8 stop"
 APPLICATION_SERVER_STATUS="service jetty8 status"
 
 WAR_BACKUP_FOLDER="/root/backups/wars/"
-WEBAPPS_FOLDER="/var/lib/jetty8/webapps/"
-FINAL_WAR_NAME="ROOT.war"
+CURRENT_WAR="/var/lib/jetty8/webapps/ROOT.war"
+NEW_WAR="/root/deployable.war"
 
-WAR_FOLDER="/root/"
-NEW_WAR_NAME="deployable.war"
 
 source $(dirname $(readlink -f $0))/management.sh
