@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## management.sh
-# Version: 0.1.4-SNAPSHOT
+# Version: 0.1.5-SNAPSHOT
 ##
 
 function scriptUpdate {
@@ -104,15 +104,15 @@ if [ "$AUTO_UPDATE_ENABLED" = "1" ]; then
 fi
 
 case "$1" in
-	start)
+	startServer)
 		startServer
 	;;
 
-	stop)
+	stopServer)
 		stopServer
 	;;
 
-	restart)
+	restartServer)
 		stopServer
 		startServer
 	;;
