@@ -77,7 +77,7 @@ function deploy {
 		echo "Old war saved"
 	fi
 
-	rm -f "$CURRENT_WAR"
+	rm -rf "$(dirname $CURRENT_WAR)/*"
 	echo "Current war removed"
 
 	mv $1 "$CURRENT_WAR"
