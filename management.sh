@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## management.sh
-# Version: 0.1.5-SNAPSHOT
+# Version: 0.1.6-SNAPSHOT
 ##
 
 function scriptUpdate {
@@ -77,7 +77,7 @@ function deploy {
 		echo "Old war saved"
 	fi
 
-	rm -rf "$(dirname $CURRENT_WAR)/*"
+	rm -r ${CURRENT_WAR/.war/*}
 	echo "Current war removed"
 
 	mv $1 "$CURRENT_WAR"
