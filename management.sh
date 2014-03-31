@@ -45,7 +45,7 @@ function serverStatus {
 }
 
 function clearBackupFolder {
-	find $WAR_BACKUP_FOLDER -type f -ctime +10 | xargs rm -rf
+	find $WAR_BACKUP_FOLDER -type f -ctime +3 | xargs rm -rf
 	echo "Backup-Folder cleared"
 }
 
