@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## management.sh
-# Version: 0.1.6-SNAPSHOT
+# Version: 0.1.7-SNAPSHOT
 ##
 
 function scriptUpdate {
@@ -45,7 +45,7 @@ function serverStatus {
 }
 
 function clearBackupFolder {
-	find $WAR_BACKUP_FOLDER -type f -ctime +3 | xargs rm -rf
+	find $WAR_BACKUP_FOLDER -type f -not -name "latest.war" -ctime +3 | xargs rm -rf
 	echo "Backup-Folder cleared"
 }
 
@@ -58,12 +58,6 @@ function deploy {
         	exit 1;
         fi
 
-#	if [ ! -d $WEBAPPS_FOLDER ]; then
-#		echo "$WEBAPPS_FOLDER not found"
-#		echo "Deployment aborted"
-#		exit 1;
-#	fi
-
 	stopServer
 
 	if [ ! -d $WAR_BACKUP_FOLDER ]; then
@@ -71,16 +65,16 @@ function deploy {
 		echo "Backup-folder created"
 	fi
 
-	if [ -f "$CURRENT_WAR" ]; then
-		cp "$CURRENT_WAR" "$WAR_BACKUP_FOLDER$(date +"%Y-%m-%d-%H:%M").war"
-		mv "$CURRENT_WAR" "$WAR_BACKUP_FOLDERlatest.war"
+	if [ -f $CURRENT_WAR ]; then
+		cp $CURRENT_WAR "$WAR_BACKUP_FOLDER$(date +"%Y-%m-%d-%H:%M").war"
+		cp $CURRENT_WAR "${WAR_BACKUP_FOLDER}latest.war"
 		echo "Old war saved"
 	fi
 
 	rm -r ${CURRENT_WAR/.war/*}
 	echo "Current war removed"
 
-	mv $1 "$CURRENT_WAR"
+	mv $1 $CURRENT_WAR
 	echo "New war moved"
 
 	startServer
@@ -88,13 +82,13 @@ function deploy {
 }
 
 function rollback {
-	if [ ! -f "$WAR_BACKUP_FOLDERlatest.war" ]; then
+	if [ ! -f "${WAR_BACKUP_FOLDER}latest.war" ]; then
 		echo "latest.war not found"
 		echo "Rollback aborted"
 		exit 1;
 	fi
 
-	deploy "$WAR_BACKUP_FOLDERlatest.war"
+	deploy "${WAR_BACKUP_FOLDER}latest.war"
 	echo "Rollback finished"
 }
 
@@ -125,7 +119,7 @@ case "$1" in
 		if [ ! -z $2 ]; then
 			deploy $2
 		else
-			deploy "$NEW_WAR"
+			deploy $NEW_WAR
 		fi
 
 		clearBackupFolder
