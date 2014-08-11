@@ -5,7 +5,7 @@
 ##
 
 function scriptUpdate {
-        wget "https://raw.github.com/jewm/jasdh/master/management.sh" -O "management_new_version.sh" -nv
+        wget "https://raw.github.com/julian-eggers/jasdh/master/management.sh" -O "management_new_version.sh" -nv
 
 	if grep -q "Version" "management_new_version.sh";
 	then
